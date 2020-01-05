@@ -1,0 +1,1 @@
+https://towardsdatascience.com/accessing-google-calendar-events-data-using-python-e915599d3ae2
