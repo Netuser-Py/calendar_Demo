@@ -9,7 +9,9 @@ Complete the steps described in the Google Calendar Python Quickstart, and in ab
 Install
 
 pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+
 or
+
 pip install -r requirements.txt
 
 Run
