@@ -3,6 +3,8 @@
  https://slides.com/mystuff/python-docx-demo/live
  
  based on: https://developers.google.com/calendar/quickstart/python 
+ 
+ Github: python-samples/calendar/quickstart/
 
 
 Google Calendar Python Quickstart
