@@ -14,18 +14,18 @@ def it_is_now():
 
 def set_a_date():
     startDate = datetime(2019, 12, 1) + timedelta(seconds = -1)
-    print(is_dst(startDate, timezone="America/Winnipeg"))
+    print(is_dst(startDate, timezone="US/Mountain"))
     lastSart = datetime(2019, 12, 15) + timedelta(seconds = -1)
     print(lastSart)
-    print(is_dst(lastSart, timezone="America/Winnipeg"))
+    print(is_dst(lastSart, timezone="US/Mountain"))
 
     # endT = "2019-10-01T00:00:00-06:00" # ends before (DST?)
-    tempDT = pytz.timezone("America/Winnipeg").localize(startDate)
+    tempDT = pytz.timezone("US/Mountain").localize(startDate)
     fmt = '%Y-%m-%dT%H:%M:%S%z'   
     startDate = tempDT.strftime(fmt)
     print(startDate)
 
-    tempDT = pytz.timezone("America/Winnipeg").localize(lastSart)
+    tempDT = pytz.timezone("US/Mountain").localize(lastSart)
     fmt = '%Y-%m-%dT%H:%M:%S%z'    
     lastSart = tempDT.strftime(fmt)
     print(lastSart)
@@ -33,8 +33,16 @@ def set_a_date():
     print("Report for events from: " + str(startDate) + " to " + lastSart + "\n") 
     return
 
+# list all timezone valuse used in pytz.timezone
+def list_timezones():  
+    for tz in pytz.all_timezones:
+        print(tz)
+    return
+
 def main():
+    list_timezones()
     set_a_date()
+
     return
 
 if __name__ == '__main__':
