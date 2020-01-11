@@ -10,9 +10,7 @@ def is_dst(dt=None, timezone="UTC"):
     timezone_aware_date = timezone.localize(dt, is_dst=None)
     return timezone_aware_date.tzinfo._dst.seconds != 0
 
-
-
-
+# 
 import time
 from datetime import datetime, timedelta
 from tzlocal import get_localzone
@@ -26,7 +24,6 @@ def to_local(dt):
         dt = dt - hours_delta
 
     return dt.replace(tzinfo=get_localzone())
-
 
 if __name__ == '__main__':
     # Some examples

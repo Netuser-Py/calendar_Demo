@@ -11,6 +11,8 @@ import csv, json, sys
 import pickle
 import os.path
 
+import UTC_stuff
+
 # If modifying these scopes, delete the file token.json.
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
 
@@ -43,30 +45,11 @@ def list_events():
     now = datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     print('Getting the upcoming 10 events')
     # default is: calendarId='primary'
-    # get id from calendar properties 
-    # calendarId='nhl_28_%57innipeg+%4aets#sports@group.v.calendar.google.com'
+    # get id from calendar properties: calendarId='nhl_28_%57innipeg+%4aets#sports@group.v.calendar.google.com'
     #
-    # start_date = now
 
-    '''startDate = datetime(2019, 12, 1) + timedelta(seconds = -1)
-    print(is_dst(startDate, timezone="America/Winnipeg"))
-    lastSart = datetime(2019, 12, 15) + timedelta(seconds = -1)
-    print(lastSart)
-    print(is_dst(lastSart, timezone="America/Winnipeg"))
-
-    # endT = "2019-10-01T00:00:00-06:00" # ends before (DST?)
-    tempDT = timezone("America/Winnipeg").localize(startDate)
-    fmt = '%Y-%m-%dT%H:%M:%S%z'   
-    startDate = tempDT.strftime(fmt)
-    print(startDate)
-
-    tempDT = timezone("America/Winnipeg").localize(lastSart)
-    fmt = '%Y-%m-%dT%H:%M:%S%z'    
-    lastSart = tempDT.strftime(fmt)
-    print(lastSart)
-    '''
-
-
+    start_date = now
+    fmt = '%Y-%m-%d %H:%M' 
     events_result = service.events().list(calendarId='nhl_28_%57innipeg+%4aets#sports@group.v.calendar.google.com', 
                                         timeMin=start_date,
                                         maxResults=10, singleEvents=True,
@@ -75,10 +58,19 @@ def list_events():
 
     if not events:
         print('No upcoming events found.')
-    for event in events:
+
+    #events now contains the buffer
+    print(events)
+
+    # list each event in events
+    for event in events:        
+        print(event)
+        for item in event:
+            print(item, ': ', event[item])
+
         start = event['start'].get('dateTime', event['start'].get('date'))
         print(start, event['summary'])
-
+    
 def list_cals():
     store = file.Storage('token.json')
     creds = store.get()

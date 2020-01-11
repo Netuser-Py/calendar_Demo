@@ -57,8 +57,8 @@ def list_timezones():
     return
 
 def main():
-    #list_timezones()
-    #set_a_date()
+    list_timezones()
+    set_a_date()
     print(to_local(it_is_now()))
 
     return
