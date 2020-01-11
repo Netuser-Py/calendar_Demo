@@ -14,7 +14,7 @@ import os.path
 # If modifying these scopes, delete the file token.json.
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
 
-def main():
+def list_events():
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
     """
@@ -45,7 +45,30 @@ def main():
     # default is: calendarId='primary'
     # get id from calendar properties 
     # calendarId='nhl_28_%57innipeg+%4aets#sports@group.v.calendar.google.com'
-    events_result = service.events().list(calendarId='nhl_28_%57innipeg+%4aets#sports@group.v.calendar.google.com', timeMin=now,
+    #
+    # start_date = now
+
+    '''startDate = datetime(2019, 12, 1) + timedelta(seconds = -1)
+    print(is_dst(startDate, timezone="America/Winnipeg"))
+    lastSart = datetime(2019, 12, 15) + timedelta(seconds = -1)
+    print(lastSart)
+    print(is_dst(lastSart, timezone="America/Winnipeg"))
+
+    # endT = "2019-10-01T00:00:00-06:00" # ends before (DST?)
+    tempDT = timezone("America/Winnipeg").localize(startDate)
+    fmt = '%Y-%m-%dT%H:%M:%S%z'   
+    startDate = tempDT.strftime(fmt)
+    print(startDate)
+
+    tempDT = timezone("America/Winnipeg").localize(lastSart)
+    fmt = '%Y-%m-%dT%H:%M:%S%z'    
+    lastSart = tempDT.strftime(fmt)
+    print(lastSart)
+    '''
+
+
+    events_result = service.events().list(calendarId='nhl_28_%57innipeg+%4aets#sports@group.v.calendar.google.com', 
+                                        timeMin=start_date,
                                         maxResults=10, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
@@ -72,8 +95,12 @@ def list_cals():
         page_token = calendar_list.get('nextPageToken')
         if not page_token:
             break
+def main():
+    list_cals()
+    list_events()
+    return
 
 if __name__ == '__main__':
     main()
-    list_cals()
+    
     

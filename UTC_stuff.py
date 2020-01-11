@@ -1,5 +1,21 @@
 from datetime import datetime, timedelta
 import pytz
+import time
+from tzlocal import get_localzone
+import maya
+
+
+def to_local(dt):
+    """From any timezone to local datetime - also cope with DST"""
+    dt1 = maya.parse(dt).datetime()
+    localtime = time.localtime()
+    if localtime.tm_isdst:
+        utctime = time.gmtime()
+        hours_delta = timedelta(hours=(localtime.tm_hour - utctime.tm_hour))
+        dt1 = dt1 - hours_delta
+
+    return dt1.replace(tzinfo=get_localzone())
+
 
 def is_dst(dt=None, timezone="UTC"):
     if dt is None:
@@ -11,6 +27,7 @@ def is_dst(dt=None, timezone="UTC"):
 def it_is_now():
     now = datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     print(now)
+    return now
 
 def set_a_date():
     startDate = datetime(2019, 12, 1) + timedelta(seconds = -1)
@@ -40,8 +57,9 @@ def list_timezones():
     return
 
 def main():
-    list_timezones()
-    set_a_date()
+    #list_timezones()
+    #set_a_date()
+    print(to_local(it_is_now()))
 
     return
 
