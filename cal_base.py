@@ -1,18 +1,13 @@
 from __future__ import print_function
-import pytz
-from pytz import timezone
-from datetime import datetime, timedelta
-from httplib2 import Http
-from oauth2client import file, client, tools
+import datetime
+import pickle
+import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-import csv, json, sys
-import pickle
-import os.path
 
-# If modifying these scopes, delete the file token.json.
-SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
+# If modifying these scopes, delete the file token.pickle.
+SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
 def main():
     """Shows basic usage of the Google Calendar API.
@@ -40,12 +35,9 @@ def main():
     service = build('calendar', 'v3', credentials=creds)
 
     # Call the Calendar API
-    now = datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     print('Getting the upcoming 10 events')
-    # default is: calendarId='primary'
-    # get id from calendar properties 
-    # calendarId='nhl_28_%57innipeg+%4aets#sports@group.v.calendar.google.com'
-    events_result = service.events().list(calendarId='nhl_28_%57innipeg+%4aets#sports@group.v.calendar.google.com', timeMin=now,
+    events_result = service.events().list(calendarId='primary', timeMin=now,
                                         maxResults=10, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
@@ -56,24 +48,5 @@ def main():
         start = event['start'].get('dateTime', event['start'].get('date'))
         print(start, event['summary'])
 
-def list_cals():
-    store = file.Storage('token.json')
-    creds = store.get()
-    if not creds or creds.invalid:
-        flow = client.flow_from_clientsecrets('credentials.json', SCOPES)
-        creds = tools.run_flow(flow, store)
-    service = build('calendar', 'v3', http=creds.authorize(Http()))
-
-    page_token = None
-    while True:
-        calendar_list = service.calendarList().list(pageToken=page_token).execute()
-        for calendar_list_entry in calendar_list['items']:
-            print(calendar_list_entry['summary'])
-        page_token = calendar_list.get('nextPageToken')
-        if not page_token:
-            break
-
 if __name__ == '__main__':
     main()
-    list_cals()
-    
