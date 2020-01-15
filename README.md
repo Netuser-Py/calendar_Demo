@@ -1,6 +1,6 @@
 # calendar_Demo
  Python Calendar API Demo
- https://slides.com/mystuff/python-docx-demo/live
+ https://slides.com/mystuff/google-calendar-api-with-python
  
  based on: https://developers.google.com/calendar/quickstart/python 
  
