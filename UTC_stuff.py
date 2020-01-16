@@ -1,3 +1,6 @@
+# just for demo purposes 
+# please play with this at your own risk
+
 from datetime import datetime, timedelta
 import pytz
 import time
@@ -30,9 +33,9 @@ def it_is_now():
     return now
 
 def set_a_date():
-    startDate = datetime(2019, 12, 1) + timedelta(seconds = -1)
+    startDate = datetime(2019, 10, 1) + timedelta(seconds = -1)
     print(is_dst(startDate, timezone="US/Mountain"))
-    lastSart = datetime(2019, 12, 15) + timedelta(seconds = -1)
+    lastSart = datetime(2019, 10, 31) + timedelta(seconds = -1)
     print(lastSart)
     print(is_dst(lastSart, timezone="US/Mountain"))
 
